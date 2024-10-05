@@ -7,6 +7,10 @@ const Calculator = () => {
     const [str,setStr]=useState("");
     const [result,setResult]=useState("");
 
+    const isOperator = (char) => {
+        return ['+', '-', '*', '/'].includes(char);
+    };
+
     const inputCheck=()=>{
         if(str.length>25){
             setResult("Too many digits");
@@ -24,8 +28,13 @@ const Calculator = () => {
     };
     
     const handleOperation = (operator) => {
-        evaluate();
-        setStr(eval(str).toString() + operator);
+        if (!isOperator(str.slice(-1))) {
+            evaluate();
+            setStr(eval(str) + operator);
+        } else {
+            setStr(str.slice(0, -1) + operator); // Replace the last operator with the new one
+        }
+       
     };
 
     useEffect(()=>{
